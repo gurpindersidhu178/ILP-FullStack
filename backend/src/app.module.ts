@@ -5,6 +5,10 @@ import { NotificationsModule } from
 './notifications/notifications.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { ComplianceModule } from './compliance/compliance.module';
+import { MarketplaceModule } from './marketplace/marketplace.module';
+import { SearchModule } from './search/search.module';
+import { VendorModule } from './vendor/vendor.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -12,7 +16,11 @@ import { ComplianceModule } from './compliance/compliance.module';
     DocumentsModule,
     NotificationsModule,
     AnalyticsModule,
-    ComplianceModule
+    ComplianceModule,
+    MarketplaceModule,
+    SearchModule,
+    VendorModule,
+    OrdersModule
   ],
 })
 export class AppModule {}
