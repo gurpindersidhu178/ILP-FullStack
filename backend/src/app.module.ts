@@ -9,6 +9,8 @@ import { MarketplaceModule } from './marketplace/marketplace.module';
 import { SearchModule } from './search/search.module';
 import { VendorModule } from './vendor/vendor.module';
 import { OrdersModule } from './orders/orders.module';
+import { AiService } from './ai/ai.service';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -20,8 +22,10 @@ import { OrdersModule } from './orders/orders.module';
     MarketplaceModule,
     SearchModule,
     VendorModule,
-    OrdersModule
+    OrdersModule,
+    AiModule
   ],
+  providers: [AiService],
 })
 export class AppModule {}
 

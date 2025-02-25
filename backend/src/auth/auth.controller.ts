@@ -1,24 +1,56 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { 
+  Controller, Get, Post, Req, Body, UseGuards, BadRequestException 
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  
-  @Get('test')  // ✅ ADD THIS ROUTE FOR TESTING
+  constructor(private readonly authService: AuthService) {}
+
+  // ✅ Test API Route
+  @Get('test')
   testAPI() {
     return { message: "Auth API is working!" };
   }
 
-  @Get('google')  
-  @UseGuards(AuthGuard('google'))  
-  googleAuth() {}  
+  // ✅ Register a new user
+  @Post('register')
+  async register(
+    @Body('email') email: string,
+    @Body('password') password: string
+  ) {
+    if (!email || !password) {
+      throw new BadRequestException('Email and password are required.');
+    }
+    return this.authService.register(email, password);
+  }
 
-  @Get('google/callback')  
-  @UseGuards(AuthGuard('google'))  
-  googleAuthRedirect(@Req() req) {  
+  // ✅ Login with email & password (Returns JWT Token)
+  @Post('login')
+  async login(
+    @Body('email') email: string,
+    @Body('password') password: string
+  ) {
+    const token = await this.authService.validateUser(email, password);
+    if (!token) {
+      throw new BadRequestException('Invalid credentials.');
+    }
+    return { message: 'Login successful', token };
+  }
+
+  // ✅ Google Authentication
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  googleAuth() {}
+
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  googleAuthRedirect(@Req() req) {
     return req.user;
   }
 
+  // ✅ Facebook Authentication
   @Get('facebook')
   @UseGuards(AuthGuard('facebook'))
   facebookAuth() {}
@@ -29,9 +61,10 @@ export class AuthController {
     return req.user;
   }
 
+  // ✅ LinkedIn Authentication
   @Get('linkedin')
   @UseGuards(AuthGuard('linkedin'))
-  linkedinAuth() {}  
+  linkedinAuth() {}
 
   @Get('linkedin/callback')
   @UseGuards(AuthGuard('linkedin'))
