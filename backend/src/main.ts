@@ -17,8 +17,8 @@ class AppModule {}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
-  console.log(`🚀 Server running at http://localhost:3000`);
+ await app.listen(5000);
+  console.log(`🚀 Server running at http://localhost:5000`);
 }
 bootstrap();
 

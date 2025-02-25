@@ -3,13 +3,19 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
-  @Get('google')
-  @UseGuards(AuthGuard('google'))
-  googleAuth() {}
+  
+  @Get('test')  // ✅ ADD THIS ROUTE FOR TESTING
+  testAPI() {
+    return { message: "Auth API is working!" };
+  }
 
-  @Get('google/callback')
-  @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req) {
+  @Get('google')  
+  @UseGuards(AuthGuard('google'))  
+  googleAuth() {}  
+
+  @Get('google/callback')  
+  @UseGuards(AuthGuard('google'))  
+  googleAuthRedirect(@Req() req) {  
     return req.user;
   }
 
@@ -25,7 +31,7 @@ export class AuthController {
 
   @Get('linkedin')
   @UseGuards(AuthGuard('linkedin'))
-  linkedinAuth() {}
+  linkedinAuth() {}  
 
   @Get('linkedin/callback')
   @UseGuards(AuthGuard('linkedin'))
